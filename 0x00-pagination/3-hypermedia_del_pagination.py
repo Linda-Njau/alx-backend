@@ -14,6 +14,7 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initialize dataset."""
         self.__dataset = None
         self.__indexed_dataset = None
 
@@ -43,10 +44,10 @@ class Server:
         """Returns dict containing info for pagniation"""
         indexed_dataset = self.indexed_dataset()
 
-        assert index is None or (index >= 0 and index < len(indexed_dataset))
-        if index is None:
-            index = 0
-
+        assert(isinstance(index, int),
+               isinstance(page_size, int),
+               index, page_size) >= (True, True, 0, 1)
+        assert index < len(indexed_dataset)
         data = []
         next_index = index + page_size
         for i in range(index, next_index):

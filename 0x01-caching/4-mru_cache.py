@@ -1,40 +1,36 @@
-#!/usr/bin/python3
-"""MRUCache Class"""
-
+#!/usr/bin/env python3
+"""MRU caching"""
 from base_caching import BaseCaching
+from collections import OrderedDict
 
 
 class MRUCache(BaseCaching):
-    """MRU caching system."""
-
+    """MRU Caching System"""
     def __init__(self):
-        """Initialize the MRUCache"""
+        """initialises the class instance"""
         super().__init__()
-        self.order = []
-
-    def update_order(self, key):
-        """Update the order list when accessing or adding a key"""
-        if key in self.order:
-            self.order.remove(key)
-        self.order.append(key)
+        self.cache_data = OrderedDict()
+        self.mru = ""
 
     def put(self, key, item):
-        """Add an item to the cache according to MRU"""
-        if key is None or item is None:
-            return
-
-        self.cache_data[key] = item
-        self.update_order(key)
-
-        if len(self.cache_data) > self.MAX_ITEMS:
-            mru_key = self.order.pop()
-            del self.cache_data[mru_key]
-            print("DISCARD:", mru_key)
+        """assigns item value corresponding to key"""
+        if key and item:
+            if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+                if key in self.cache_data:
+                    self.cache_data.update({key: item})
+                    self.mru = key
+                else:
+                    key_discarded = self.mru
+                    del self.cache_data[key_discarded]
+                    print('DISCARD: {}'.format(key_discarded))
+                    self.cache_data[key] = item
+                    self.mru = key
+            else:
+                self.cache_data[key] = item
+                self.mru = key
 
     def get(self, key):
-        """Get an item from the cache"""
-        if key is None or key not in self.cache_data:
-            return None
-
-        self.update_order(key)
-        return self.cache_data[key]
+        """gets an item corresponding to key"""
+        if key in self.cache_data:
+            self.mru = key
+            return self.cache_data[key]

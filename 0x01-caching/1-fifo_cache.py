@@ -7,6 +7,10 @@ from base_caching import BaseCaching
 class FIFOCache(BaseCaching):
     """FIFOCache class"""
 
+    def __init__(self):
+        """Constructor method."""
+        super().__init__()
+    
     def put(self, key, item):
         """adds new item to cache"""
         if key and item:

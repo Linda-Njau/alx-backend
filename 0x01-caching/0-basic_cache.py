@@ -11,6 +11,7 @@ class BasicCache(BaseCaching):
         """ puts new item in cache"""
         if key is None or item is None:
             pass
+        self.cache_data[key] = item
 
     def get(self, key):
         """ gets item in cache"""

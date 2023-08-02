@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """flask application"""
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
@@ -27,4 +27,4 @@ def index():
 @babel.localeselector
 def get_locale():
     """Returns best available language"""
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(app.Config['LANGUAGES'])
